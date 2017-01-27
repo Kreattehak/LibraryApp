@@ -72,7 +72,7 @@ public class AppLogic {
 
     private void printOptions(int from, int to) {
         int optionNumber = 0;
-        if(from != 0)
+        if (from != 0)
             optionNumber = 1;
         for (int i = from; i < to; i++) {
             System.out.println(optionNumber++ + " - " + Option.values()[i]);
@@ -109,7 +109,8 @@ public class AppLogic {
                     default:
                         break mainLoop;
                 }
-            } else {
+                currentMenuOption = Option.MAIN_MENU_USERS;
+            } else if (currentMenuOption == Option.MAIN_MENU_PUBLICATIONS) {
                 printOptions(8, 12);
                 currentMenuOption = Option.createOptionThroughUserInput(dataReader.getInput() + PUBLICATIONS_MENU_MODIFIER);
                 switch (currentMenuOption) {
@@ -128,6 +129,7 @@ public class AppLogic {
                     default:
                         break mainLoop;
                 }
+                currentMenuOption = Option.MAIN_MENU_PUBLICATIONS;
             }
         }
     }

@@ -64,7 +64,8 @@ public class DataReader {
             throw new InputMismatchException("Cover type is not valid.");
 
         Book book = new Book(date, title, publisher, author, pages, isbn, coverType);
-        System.out.println();
+        System.out.println("Book" + title + " created by " + author +" published by " + publisher
+                + " which id is: " + book.getPublicationId() + " was created.");
 
         return book;
     }
@@ -89,7 +90,8 @@ public class DataReader {
         String category = sc.nextLine();
 
         Magazine magazine = new Magazine(date, title, publisher, category);
-        System.out.println(magazine);
+        System.out.println("Magazine" + title + " published by " + publisher + " which id is: "
+                + magazine.getPublicationId() + " was created.");
 
         return magazine;
     }
