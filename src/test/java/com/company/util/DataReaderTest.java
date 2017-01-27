@@ -95,4 +95,5 @@ public class DataReaderTest {
         System.setIn(in);
         dataReader = new DataReader();
     }
+
 }

@@ -1,7 +1,5 @@
 package com.company.data;
 
-import com.company.util.LibraryUtilities;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;

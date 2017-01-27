@@ -11,6 +11,8 @@ import org.mockito.Mockito;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -25,21 +27,22 @@ public class LibraryUtilitiesTest {
     private final Pattern pattern = Pattern.compile(", amount of borrowed books: |\\R");
 
     @Before
-    public void setUpStreams() {
+    public void setUp() throws NoSuchFieldException, IllegalAccessException {
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
+        resetStaticIdFields();
     }
 
     @After
-    public void cleanUpStreams() {
+    public void tearDown() {
         System.setOut(null);
         System.setErr(null);
     }
 
     @Test
     public void shouldPrintUsersSortedByLastThenFirstName() {
-        String expectedOutput = "Jan Bobko2Andrzej Kowalski3Daniel Nowak4Jan Nowak2Jan Nowak3Adrian Pomykała0" +
-                "Agnieszka Szewczyk3Janusz Tydniarski1";
+        String expectedOutput = "5. Jan Bobko23. Andrzej Kowalski32. Daniel Nowak41. Jan Nowak28. Jan Nowak3" +
+                "7. Adrian Pomykała04. Agnieszka Szewczyk36. Janusz Tydniarski1";
 
         Library libraryStub = Mockito.mock(Library.class);
         Mockito.when(libraryStub.getLibraryUsers()).thenReturn(fakeLibraryUsers());
@@ -51,8 +54,8 @@ public class LibraryUtilitiesTest {
 
     @Test
     public void shouldPrintUsersSortedByQuantityOfBorrowedPublications() {
-        String expectedOutput = ("Daniel Nowak4Andrzej Kowalski3Agnieszka Szewczyk3Jan Nowak3Jan Nowak2" +
-                "Jan Bobko2Janusz Tydniarski1Adrian Pomykała0");
+        String expectedOutput = ("2. Daniel Nowak43. Andrzej Kowalski34. Agnieszka Szewczyk38. Jan Nowak3" +
+                "1. Jan Nowak25. Jan Bobko26. Janusz Tydniarski17. Adrian Pomykała0");
 
         Library libraryStub = Mockito.mock(Library.class);
         Mockito.when(libraryStub.getLibraryUsers()).thenReturn(fakeLibraryUsers());
@@ -64,8 +67,8 @@ public class LibraryUtilitiesTest {
 
     @Test
     public void shouldPrintUsersSortedByTheirId() {
-        String expectedOutput = "Jan Nowak2Daniel Nowak4Andrzej Kowalski3Agnieszka Szewczyk3Jan Bobko2" +
-                "Janusz Tydniarski1Adrian Pomykała0Jan Nowak3";
+        String expectedOutput = "1. Jan Nowak22. Daniel Nowak43. Andrzej Kowalski34. Agnieszka Szewczyk3" +
+                "5. Jan Bobko26. Janusz Tydniarski17. Adrian Pomykała08. Jan Nowak3";
 
         Library libraryStub = Mockito.mock(Library.class);
         Mockito.when(libraryStub.getLibraryUsers()).thenReturn(fakeLibraryUsers());
@@ -98,14 +101,6 @@ public class LibraryUtilitiesTest {
         assertEquals("Map size isn't equal to proper value",
                 publications.size(), amount);
     }
-
-
-
-
-
-
-
-
 
     private Map<Integer, LibraryUser> fakeLibraryUsers() {
         LibraryUser[] libraryUsers = {
@@ -162,5 +157,19 @@ public class LibraryUtilitiesTest {
             return matcher.replaceAll("");
         else
             return "Matcher found none matches";
+    }
+
+    private void resetStaticIdFields() throws NoSuchFieldException, IllegalAccessException {
+        final Field userField = LibraryUser.class.getDeclaredField("nextUserId");
+        final Field publicationField = Publication.class.getDeclaredField("nextPublicationId");
+        userField.setAccessible(true);
+        publicationField.setAccessible(true);
+        final Field modifiersField = Field.class.getDeclaredField("modifiers");
+        modifiersField.setAccessible(true);
+        modifiersField.setInt(userField, userField.getModifiers());
+        modifiersField.setInt(publicationField, publicationField.getModifiers());
+
+        userField.set(null, 0);
+        publicationField.set(null, 0);
     }
 }
