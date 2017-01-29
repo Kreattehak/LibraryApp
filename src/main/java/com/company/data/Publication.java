@@ -31,24 +31,12 @@ public abstract class Publication implements Serializable {
         return dateOfPublication;
     }
 
-    public void setDateOfPublication(LocalDate dateOfPublication) {
-        this.dateOfPublication = dateOfPublication;
-    }
-
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getPublisher() {
         return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
     }
 
     @Override
@@ -63,7 +51,6 @@ public abstract class Publication implements Serializable {
 
         Publication other = (Publication) object;
 
-//        if (publicationId != other.publicationId) return false;
         if (dateOfPublication != null ? !dateOfPublication.equals(other.dateOfPublication) : other.dateOfPublication != null)
             return false;
         if (title != null ? !title.equals(other.title) : other.title != null) return false;
@@ -73,7 +60,6 @@ public abstract class Publication implements Serializable {
     @Override
     public int hashCode() {
         final int prime = 17;
-//        int result = publicationId;
         int result = dateOfPublication != null ? dateOfPublication.hashCode() : 0;
         result = prime * result + (title != null ? title.hashCode() : 0);
         result = prime * result + (publisher != null ? publisher.hashCode() : 0);

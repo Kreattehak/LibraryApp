@@ -28,32 +28,16 @@ public class Book extends Publication {
         return author;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public int getPages() {
         return pages;
-    }
-
-    public void setPages(int pages) {
-        this.pages = pages;
     }
 
     public String getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
     public BookCoverType getBookCoverType() {
         return bookCoverType;
-    }
-
-    public void setBookCoverType(BookCoverType bookCoverType) {
-        this.bookCoverType = bookCoverType;
     }
 
     @Override

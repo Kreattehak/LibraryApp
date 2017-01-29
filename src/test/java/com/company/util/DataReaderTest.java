@@ -25,7 +25,7 @@ public class DataReaderTest {
     public void createMagazineFromUserInput() {
         String data = "12/06/2015\nTitle\nPublisher\nCategory";
         setSystemInForPreparedInput(data);
-        Magazine standardMagazine = new Magazine(LocalDate.of(2015, 06, 12), "Title", "Publisher", "Category");
+        Magazine standardMagazine = new Magazine(LocalDate.of(2015, 6, 12), "Title", "Publisher", "Category");
         Magazine magazine = dataReader.readInputAndCreateMagazine();
         assertEquals("Magazine created by DataReader is not equal to standard Magazine model.", standardMagazine, magazine);
     }
@@ -67,13 +67,21 @@ public class DataReaderTest {
     }
 
     @Test
-    public void givenPersonalIdNumShouldntBeLessThan11Digits() {
+    public void givenPersonalIdNumShouldNotBeLessThan11Digits() {
         personalIdNumValidation("Kowalski\nJan\n9809116111\n");
     }
 
     @Test
-    public void givenPersonalIdNumShouldntBeGreaterThan11Digits() {
+    public void givenPersonalIdNumShouldNotBeGreaterThan11Digits() {
         personalIdNumValidation("Kowalski\nJan\n980911611111\n");
+    }
+
+    @Test
+    public void givenIdShouldNotBeLowerThan1() {
+        setSystemInForPreparedInput("0");
+        exception.expectMessage("Lowest id is 1.");
+        exception.expect(InputMismatchException.class);
+        dataReader.readInputAndGetId("Validating id: ");
     }
 
     private void personalIdNumValidation(String data) {

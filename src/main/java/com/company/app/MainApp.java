@@ -1,20 +1,25 @@
 package com.company.app;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.company.util.PathRecognizer;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class MainApp {
     public static void main(String[] args) {
         String fileLocation = null;
-
-        if (args.length == 1) {
-            Pattern pattern = Pattern.compile("^(.+)(/|\\\\)([^(/|\\\\)]+$)");
-            Matcher matcher = pattern.matcher(args[0]);
-            if (!matcher.matches())
-                throw new IllegalArgumentException("Path was not recognized. Please specify your path!");
-            fileLocation = args[0];
-            System.out.println("User passed path to file: " + matcher.group());
+        try {
+            Files.readAllLines(Paths.get("src/main/resources/intro.txt"))
+                    .stream()
+                    .forEach(System.out::println);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        if (args.length == 1) {
+            fileLocation = PathRecognizer.recognizePath(args[0]);
+        }
+
         AppLogic appLogic = new AppLogic(fileLocation);
         appLogic.start();
     }

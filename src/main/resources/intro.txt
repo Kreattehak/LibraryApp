@@ -1,0 +1,4 @@
+This app can be launched by deserialization of previously serialized Library object.
+You can pass path to serialized file through command-line arguments.
+By default if none arguments were inserted, this app creates folder "LibraryApp" in user home,
+where it saves it's state in serialized file.

@@ -1,22 +1,19 @@
 package com.company.app;
 
 import com.company.data.*;
-import com.company.util.DataReader;
-import com.company.util.FileManager;
-import com.company.util.LibraryUtilities;
+import com.company.util.*;
 
 import java.nio.file.Paths;
-import java.util.InputMismatchException;
+import java.time.format.DateTimeParseException;
 import java.util.NoSuchElementException;
 
 public class AppLogic {
 
     private Library library;
     private FileManager fileManager;
-    private DataReader dataReader;
+    private DataReader dataReader = new DataReader();
     private LibraryUser libraryUser;
     private Publication publication;
-    private boolean improperExit;
 
     private final int USER_MENU_MODIFIER = 2;
     private final int PUBLICATIONS_MENU_MODIFIER = 7;
@@ -24,7 +21,7 @@ public class AppLogic {
     public AppLogic(String fileLocation) {
         if (fileLocation == null) {
             library = new Library();
-            fileManager = new FileManager(Paths.get(System.getProperty("user.home"), "LibraryApp", "Library.ser"));
+            fileManager = new FileManager(Paths.get(System.getProperty("user.home"), "LibraryApp", "LibrarySave.ser"));
             System.out.println("File path not specified. New Library object was created, please save library.");
         } else {
             fileManager = new FileManager(Paths.get(fileLocation));
@@ -36,14 +33,9 @@ public class AppLogic {
                 System.out.println("Library file has been read.");
             }
         }
-        dataReader = new DataReader();
     }
 
     public void start() {
-        if (improperExit == true) {
-            System.out.println("Improper exit. Please close app with option [0] to save the data.");
-        }
-        improperExit = true;
         Option option = null;
         while (option != Option.MAIN_MENU_EXIT) {
             try {
@@ -60,11 +52,16 @@ public class AppLogic {
                     case MAIN_MENU_PUBLICATIONS:
                         printMainMenu(option);
                         break;
+                    default:
+                        throw new NoSuchElementException("Entered number is not represent by option.");
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Data you inserted is not valid, please try again.");
-            } catch (NumberFormatException | NoSuchElementException e) {
-                System.out.println("Chosen option doesn't exist. Redirecting to the main menu.");
+            } catch (DateTimeParseException e) {
+                System.out.println("Given data couldn't be parsed as date. " +
+                        "Please insert full syntax data i.e.[1990/06/22");
+            } catch (NumberFormatException e) {
+                System.out.println("Given data isn't a number.");
+            } catch (IllegalArgumentException | NoSuchElementException e) {
+                System.out.println(e.getMessage());
             }
         }
         dataReader.closeScanner();
@@ -80,13 +77,11 @@ public class AppLogic {
     }
 
     private void printMainMenu(Option option) {
-        Option previousOption = option;
         Option currentMenuOption = option;
-        mainLoop:
         while (currentMenuOption != Option.MAIN_MENU_EXIT) {
             System.out.println("========================");
-            System.out.println("Now you are in " + previousOption.toString() + ". Choose option: ");
-            System.out.println("0 - " + Option.MAIN_MENU_EXIT);
+            System.out.println("Now you are in " + option.toString() + ". Choose option: ");
+            System.out.println("0 - " + "Exit Menu");
             if (currentMenuOption == Option.MAIN_MENU_USERS) {
                 printOptions(3, 8);
                 currentMenuOption = Option.createOptionThroughUserInput(dataReader.getInput() + USER_MENU_MODIFIER);
@@ -107,7 +102,7 @@ public class AppLogic {
                         addUser();
                         break;
                     default:
-                        break mainLoop;
+                        throw new NoSuchElementException("Entered number is not represent by option.");
                 }
                 currentMenuOption = Option.MAIN_MENU_USERS;
             } else if (currentMenuOption == Option.MAIN_MENU_PUBLICATIONS) {
@@ -127,7 +122,7 @@ public class AppLogic {
                         printBooks();
                         break;
                     default:
-                        break mainLoop;
+                        throw new NoSuchElementException("Entered number is not represent by option.");
                 }
                 currentMenuOption = Option.MAIN_MENU_PUBLICATIONS;
             }
@@ -156,12 +151,11 @@ public class AppLogic {
     private void getRequestedUserAndPublication(String publicationMessage, String userMessage) {
         int publicationId = dataReader.readInputAndGetId(publicationMessage);
         int userId = dataReader.readInputAndGetId(userMessage);
-        if (publicationId > library.getLibraryUsers().size() || userId > library.getPublications().size())
-            throw new InputMismatchException("One of the ids is greater than the highest id number");
+        if (userId > library.getLibraryUsers().size() || publicationId > library.getPublications().size())
+            throw new NoSuchElementException("One of the ids is greater than the highest id number");
         libraryUser = library.getLibraryUsers().get(userId);
         publication = library.getPublications().get(publicationId);
     }
-
 
     private void addMagazine() {
         library.addPublication(dataReader.readInputAndCreateMagazine());
@@ -185,7 +179,9 @@ public class AppLogic {
 
     private void removeUser() {
         int userId = dataReader.readInputAndGetId("To remove user insert user id: ");
-        library.getLibraryUsers().remove(userId);
+        if (library.getLibraryUsers().remove(userId) == null) {
+            System.out.println("User not found!");
+        }
     }
 
 
@@ -218,7 +214,7 @@ public class AppLogic {
             return description;
         }
 
-        public static Option createOptionThroughUserInput(int userInput) throws NoSuchElementException {
+        public static Option createOptionThroughUserInput(int userInput) {
             Option result;
             try {
                 result = Option.values()[userInput];

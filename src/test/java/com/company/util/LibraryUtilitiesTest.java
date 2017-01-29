@@ -12,7 +12,6 @@ import org.mockito.Mockito;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -128,7 +127,7 @@ public class LibraryUtilitiesTest {
             for (int i = 0; i < amountOfBorrowedBooks[counter]; i++) {
                 libraryUser.getValue().getBorrowedPublications().add(listOfBooks.get(i));
             }
-                counter++;
+            counter++;
         }
 
         return libraryUsersInMemory;
@@ -142,8 +141,8 @@ public class LibraryUtilitiesTest {
                 new Book(LocalDate.of(2016, 1, 1), "Book number 3", "ZBR", "Deny Dev", 742, "478", "paperback"),
         };
         Map<Integer, Publication> integerToPublicationMap = new HashMap<>();
-        for (int i = 0; i < publications.length; i++) {
-            integerToPublicationMap.putIfAbsent(publications[i].getPublicationId(), publications[i]);
+        for (Publication publication : publications) {
+            integerToPublicationMap.putIfAbsent(publication.getPublicationId(), publication);
         }
         return integerToPublicationMap;
     }
@@ -153,7 +152,7 @@ public class LibraryUtilitiesTest {
 
         Matcher matcher = pattern.matcher(consoleOutput);
 
-        if(matcher.find())
+        if (matcher.find())
             return matcher.replaceAll("");
         else
             return "Matcher found none matches";

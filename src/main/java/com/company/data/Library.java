@@ -4,6 +4,7 @@ import com.company.util.LibraryUtilities;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Library implements Serializable {
@@ -45,6 +46,9 @@ public class Library implements Serializable {
     }
 
     public void addAPublicationToUserBorrowedPublications(LibraryUser libraryUser, Publication publication) {
+        List<Publication> borrowedPublications = libraryUser.getBorrowedPublications();
+        if (borrowedPublications.size() > 4)
+            throw new IndexOutOfBoundsException("User already have borrow 4 publications, limit reached.");
         libraryUser.getBorrowedPublications().add(publication);
     }
 

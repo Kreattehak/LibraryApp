@@ -3,8 +3,8 @@ package com.company.util;
 import com.company.data.Book;
 import com.company.data.LibraryUser;
 import com.company.data.Magazine;
-import com.company.data.Publication;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -19,12 +19,12 @@ public class DataReader {
         sc = new Scanner(System.in);
     }
 
-    public int getInput() throws NumberFormatException {
+    public int getInput() {
         int number = 0;
         try {
             number = sc.nextInt();
-        } catch (InputMismatchException e) {
-            throw new NumberFormatException("Given input isn't number");
+        } catch (NumberFormatException e) {
+            throw e;
         } finally {
             sc.nextLine();
         }
@@ -32,18 +32,11 @@ public class DataReader {
         return number;
     }
 
-    public Book readInputAndCreateBook() throws DateTimeParseException, InputMismatchException {
+    public Book readInputAndCreateBook() {
         System.out.println("Year of publication: ");
         String input = sc.nextLine().trim().concat("/01/01");
-        LocalDate date;
-        try {
-            DateTimeFormatter formatter =
-                    DateTimeFormatter.ofPattern("yyyy/MM/dd");
-            date = LocalDate.parse(input, formatter);
-        } catch (DateTimeParseException exc) {
-            System.out.printf("%s is not parsable!%n", input);
-            throw exc;
-        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate date = LocalDate.parse(input, formatter);
         System.out.println("Title: ");
         String title = sc.nextLine();
         System.out.println("Publisher: ");
@@ -54,34 +47,27 @@ public class DataReader {
         int pages = Integer.parseInt(sc.nextLine());
         System.out.println("ISBN: ");
         String isbn = sc.nextLine().trim().replaceAll("-", "");
-        if(date.getYear() < 2007 && isbn.length() != 10 || date.getYear() >= 2007 && isbn.length() != 13 ) {
+        if (date.getYear() < 2007 && isbn.length() != 10 || date.getYear() >= 2007 && isbn.length() != 13) {
             throw new InputMismatchException("ISBN is not valid. Books released till 31 December 2006 have ten digits," +
                     "books release after have thirteen digits.");
         }
         System.out.println("Cover type [Hardcover/Paperback]: ");
         String coverType = sc.nextLine().toUpperCase();
-        if(!coverType.equals("HARDCOVER") && !coverType.equals("PAPERBACK"))
+        if (!coverType.equals("HARDCOVER") && !coverType.equals("PAPERBACK"))
             throw new InputMismatchException("Cover type is not valid.");
 
         Book book = new Book(date, title, publisher, author, pages, isbn, coverType);
-        System.out.println("Book" + title + " created by " + author +" published by " + publisher
+        System.out.println("Book " + title + " created by " + author + " published by " + publisher
                 + " which id is: " + book.getPublicationId() + " was created.");
 
         return book;
     }
 
-    public Magazine readInputAndCreateMagazine() throws DateTimeParseException {
-        System.out.println("Date of publication [DD/MM/YYYY]: ");
+    public Magazine readInputAndCreateMagazine() {
+        System.out.println("Date of publication [YYYY/MM/DD]: ");
         String input = sc.nextLine();
-        LocalDate date;
-        try {
-            DateTimeFormatter formatter =
-                    DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            date = LocalDate.parse(input, formatter);
-        } catch (DateTimeParseException exc) {
-            System.out.printf("%s is not parsable!%n", input);
-            throw exc;
-        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate date = LocalDate.parse(input, formatter);
         System.out.println("Title: ");
         String title = sc.nextLine();
         System.out.println("Publisher: ");
@@ -90,7 +76,7 @@ public class DataReader {
         String category = sc.nextLine();
 
         Magazine magazine = new Magazine(date, title, publisher, category);
-        System.out.println("Magazine" + title + " published by " + publisher + " which id is: "
+        System.out.println("Magazine " + title + " published by " + publisher + " which id is: "
                 + magazine.getPublicationId() + " was created.");
 
         return magazine;
@@ -103,7 +89,7 @@ public class DataReader {
         String lastName = sc.nextLine();
         System.out.println("User personal identity number: ");
         String personIdentityNumber = sc.nextLine();
-        if(personIdentityNumber.length() != 11)
+        if (personIdentityNumber.length() != 11)
             throw new InputMismatchException("Personal identity number is not valid.");
 
         LibraryUser libraryUser = new LibraryUser(firstName, lastName, personIdentityNumber);
@@ -116,7 +102,7 @@ public class DataReader {
     public int readInputAndGetId(String message) {
         System.out.println(message);
         int id = Integer.parseInt(sc.nextLine());
-        if(id < 0 )
+        if (id < 1)
             throw new InputMismatchException("Lowest id is 1.");
 
         return id;

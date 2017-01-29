@@ -5,7 +5,6 @@ import com.company.data.Library;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class FileManager {
 
@@ -19,10 +18,12 @@ public class FileManager {
         String saveFileName = "LibrarySave";
         Path savePath = fileExists(fileLocationPath, saveFileName);
         try {
+            if (!Files.isDirectory(fileLocationPath.getParent())) {
+                Files.createDirectory(fileLocationPath.getParent());
+            }
             Files.createFile(savePath);
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Directory: " + savePath.toString() + " can't be created.");
         }
 
         try (FileOutputStream fileOutputStream = new FileOutputStream(savePath.toFile());
@@ -60,7 +61,6 @@ public class FileManager {
         path = path.resolveSibling(saveFileName + suffix);
         while (path.toFile().exists()) {
             path = path.resolveSibling(saveFileName + count + suffix);
-            System.out.println(path);
             count++;
         }
         if (count > 5)

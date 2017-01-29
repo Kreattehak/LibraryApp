@@ -5,6 +5,7 @@ import com.company.data.LibraryUser;
 import com.company.data.Publication;
 
 import java.util.Comparator;
+import java.util.Map;
 
 public class LibraryUtilities {
 
@@ -16,13 +17,21 @@ public class LibraryUtilities {
             Comparator.comparing(LibraryUser::getUserId);
 
     public static void printSortedLibraryUsers(Library library, Comparator<LibraryUser> comparator) {
-        library.getLibraryUsers().values().stream()
+        Map<Integer, LibraryUser> users = library.getLibraryUsers();
+        if(users.size() == 0) {
+            System.out.println("User list is empty!");
+        }
+        users.values().stream()
                 .sorted(comparator)
                 .forEach(System.out::println);
     }
 
     public static void printConcretePublicationsSortedByYears(Library library, Class<? extends Publication> clazz) {
-        library.getPublications().values().stream()
+        Map<Integer, Publication> publications  = library.getPublications();
+        if(publications.size() == 0) {
+            System.out.println("Publication list is empty!");
+        }
+        publications.values().stream()
                 .filter(clazz::isInstance)
                 .sorted(Comparator.nullsLast(Comparator.comparing(Publication::getDateOfPublication)))
                 .forEach(System.out::println);
