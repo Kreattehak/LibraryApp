@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class Magazine extends Publication {
 
-    private static final long serialVersionUID = 5287262697289796390L;
+    private static final long serialVersionUID = 3874932116764309046L;
 
     private String category;
 

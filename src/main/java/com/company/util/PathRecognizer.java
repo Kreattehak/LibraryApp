@@ -5,6 +5,10 @@ import java.util.regex.Pattern;
 
 public class PathRecognizer {
 
+    private PathRecognizer() {
+        //Non-instantiable utility class
+    }
+
     public static String recognizePath(String path) {
         Pattern pattern = Pattern.compile("^(.+)(/|\\\\)([^(/|\\\\)]+$)");
         Matcher matcher = pattern.matcher(path);

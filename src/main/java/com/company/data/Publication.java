@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public abstract class Publication implements Serializable {
 
-    private static final long serialVersionUID = 1588310247784124327L;
+    private static final long serialVersionUID = -3614727489231840547L;
 
     private static int nextPublicationId;
 

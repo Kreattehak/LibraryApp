@@ -8,7 +8,7 @@ public class Book extends Publication {
         HARDCOVER, PAPERBACK;
     }
 
-    private static final long serialVersionUID = -2415458008387491040L;
+    private static final long serialVersionUID = 8580348077405414650L;
 
     private String author;
     private int pages;

@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Library implements Serializable {
 
-    private static final long serialVersionUID = -403054986771393677L;
+    private static final long serialVersionUID = -2692255170640294728L;
 
     private Map<Integer, Publication> integerToPublicationMap;
     private Map<Integer, LibraryUser> integerToLibraryUserMap;

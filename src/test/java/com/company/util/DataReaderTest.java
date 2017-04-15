@@ -23,7 +23,7 @@ public class DataReaderTest {
 
     @Test
     public void createMagazineFromUserInput() {
-        String data = "12/06/2015\nTitle\nPublisher\nCategory";
+        String data = "2015/06/12\nTitle\nPublisher\nCategory";
         setSystemInForPreparedInput(data);
         Magazine standardMagazine = new Magazine(LocalDate.of(2015, 6, 12), "Title", "Publisher", "Category");
         Magazine magazine = dataReader.readInputAndCreateMagazine();

@@ -16,9 +16,13 @@ public class LibraryUtilities {
     public static final Comparator<LibraryUser> sortUsersById =
             Comparator.comparing(LibraryUser::getUserId);
 
+    private LibraryUtilities() {
+        //Non-instantiable utility class
+    }
+
     public static void printSortedLibraryUsers(Library library, Comparator<LibraryUser> comparator) {
         Map<Integer, LibraryUser> users = library.getLibraryUsers();
-        if(users.size() == 0) {
+        if (users.size() == 0) {
             System.out.println("User list is empty!");
         }
         users.values().stream()
@@ -27,8 +31,8 @@ public class LibraryUtilities {
     }
 
     public static void printConcretePublicationsSortedByYears(Library library, Class<? extends Publication> clazz) {
-        Map<Integer, Publication> publications  = library.getPublications();
-        if(publications.size() == 0) {
+        Map<Integer, Publication> publications = library.getPublications();
+        if (publications.size() == 0) {
             System.out.println("Publication list is empty!");
         }
         publications.values().stream()

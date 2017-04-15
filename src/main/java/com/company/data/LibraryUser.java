@@ -6,7 +6,7 @@ import java.util.List;
 
 public class LibraryUser implements Serializable {
 
-    private static final long serialVersionUID = 7802848302154147728L;
+    private static final long serialVersionUID = 8752396576502328076L;
 
     private static int nextUserId;
 
