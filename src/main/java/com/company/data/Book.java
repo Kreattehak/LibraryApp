@@ -62,7 +62,7 @@ public class Book extends Publication {
 
     @Override
     public int hashCode() {
-        final int prime = 17;
+        final int prime = 31;
         int result = super.hashCode();
         result = prime * result + (author != null ? author.hashCode() : 0);
         result = prime * result + pages;

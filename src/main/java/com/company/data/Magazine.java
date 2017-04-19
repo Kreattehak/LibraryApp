@@ -37,7 +37,7 @@ public class Magazine extends Publication {
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 17 * result + (category != null ? category.hashCode() : 0);
+        result = 31 * result + (category != null ? category.hashCode() : 0);
         return result;
     }
 }

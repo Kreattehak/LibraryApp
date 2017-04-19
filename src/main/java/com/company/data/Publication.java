@@ -59,7 +59,7 @@ public abstract class Publication implements Serializable {
 
     @Override
     public int hashCode() {
-        final int prime = 17;
+        final int prime = 31;
         int result = dateOfPublication != null ? dateOfPublication.hashCode() : 0;
         result = prime * result + (title != null ? title.hashCode() : 0);
         result = prime * result + (publisher != null ? publisher.hashCode() : 0);

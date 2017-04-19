@@ -73,7 +73,7 @@ public class LibraryUser implements Serializable {
 
     @Override
     public int hashCode() {
-        final int prime = 17;
+        final int prime = 31;
         int result = firstName != null ? firstName.hashCode() : 0;
         result = prime * result + (lastName != null ? lastName.hashCode() : 0);
         result = prime * result + (personalIdentityNumber != null ? personalIdentityNumber.hashCode() : 0);

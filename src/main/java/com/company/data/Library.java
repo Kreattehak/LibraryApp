@@ -81,7 +81,7 @@ public class Library implements Serializable {
 
     @Override
     public int hashCode() {
-        final int prime = 17;
+        final int prime = 31;//31 * i = (i << 5) - i
         int result = integerToPublicationMap != null ? integerToPublicationMap.hashCode() : 0;
         result = prime * result + (integerToLibraryUserMap != null ? integerToLibraryUserMap.hashCode() : 0);
         return result;
