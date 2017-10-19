@@ -18,7 +18,7 @@ public class AppLogic {
     private final int USER_MENU_MODIFIER = 2;
     private final int PUBLICATIONS_MENU_MODIFIER = 7;
 
-    public AppLogic(String fileLocation) {
+    AppLogic(String fileLocation) {
         if (fileLocation == null) {
             library = new Library();
             fileManager = new FileManager(Paths.get(System.getProperty("user.home"), "LibraryApp", "LibrarySave.ser"));
@@ -35,7 +35,7 @@ public class AppLogic {
         }
     }
 
-    public void start() {
+    void start() {
         Option option = null;
         while (option != Option.MAIN_MENU_EXIT) {
             try {

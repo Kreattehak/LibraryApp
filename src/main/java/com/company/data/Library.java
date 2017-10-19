@@ -31,7 +31,7 @@ public class Library implements Serializable {
         integerToPublicationMap.putIfAbsent(publication.getPublicationId(), publication);
     }
 
-    public Publication removePublication(Publication publication) {
+    Publication removePublication(Publication publication) {
         return integerToPublicationMap.computeIfPresent(publication.getPublicationId(),
                 (key, map) -> integerToPublicationMap.remove(key));
     }
@@ -40,7 +40,7 @@ public class Library implements Serializable {
         integerToLibraryUserMap.putIfAbsent(libraryUser.getUserId(), libraryUser);
     }
 
-    public void removeUser(LibraryUser libraryUser) {
+    void removeUser(LibraryUser libraryUser) {
         integerToLibraryUserMap.computeIfPresent(libraryUser.getUserId(),
                 (key, map) -> integerToLibraryUserMap.remove(key));
     }
@@ -81,7 +81,7 @@ public class Library implements Serializable {
 
     @Override
     public int hashCode() {
-        final int prime = 31;//31 * i = (i << 5) - i
+        final int prime = 31; //31 * i = (i << 5) - i
         int result = integerToPublicationMap != null ? integerToPublicationMap.hashCode() : 0;
         result = prime * result + (integerToLibraryUserMap != null ? integerToLibraryUserMap.hashCode() : 0);
         return result;

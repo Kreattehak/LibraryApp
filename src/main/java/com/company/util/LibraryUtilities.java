@@ -11,9 +11,9 @@ public class LibraryUtilities {
 
     public static final Comparator<LibraryUser> sortUsersByLastThenFirstName =
             Comparator.comparing(LibraryUser::getLastName).thenComparing(LibraryUser::getFirstName);
-    public static final Comparator<LibraryUser> sortUsersByAmountOfBorrowedPublications =
+    static final Comparator<LibraryUser> sortUsersByAmountOfBorrowedPublications =
             Comparator.comparing((libraryUser -> libraryUser.getBorrowedPublications().size()), Comparator.reverseOrder());
-    public static final Comparator<LibraryUser> sortUsersById =
+    static final Comparator<LibraryUser> sortUsersById =
             Comparator.comparing(LibraryUser::getUserId);
 
     private LibraryUtilities() {

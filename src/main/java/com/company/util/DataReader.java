@@ -103,7 +103,7 @@ public class DataReader {
         System.out.println(message);
         int id = Integer.parseInt(sc.nextLine());
         if (id < 1)
-            throw new InputMismatchException("Lowest id is 1.");
+            throw new InputMismatchException("The lowest id is 1.");
 
         return id;
     }

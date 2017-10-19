@@ -79,7 +79,7 @@ public class DataReaderTest {
     @Test
     public void givenIdShouldNotBeLowerThan1() {
         setSystemInForPreparedInput("0");
-        exception.expectMessage("Lowest id is 1.");
+        exception.expectMessage("The lowest id is 1.");
         exception.expect(InputMismatchException.class);
         dataReader.readInputAndGetId("Validating id: ");
     }
