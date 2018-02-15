@@ -1,13 +1,19 @@
 package com.company.app;
 
-import com.company.data.*;
-import com.company.util.*;
+import com.company.data.Book;
+import com.company.data.Library;
+import com.company.data.LibraryUser;
+import com.company.data.Magazine;
+import com.company.data.Publication;
+import com.company.util.DataReader;
+import com.company.util.FileManager;
+import com.company.util.LibraryUtilities;
 
 import java.nio.file.Paths;
 import java.time.format.DateTimeParseException;
 import java.util.NoSuchElementException;
 
-public class AppLogic {
+class AppLogic {
 
     private Library library;
     private FileManager fileManager;
@@ -36,6 +42,8 @@ public class AppLogic {
     }
 
     void start() {
+        setNextPublicationId();
+
         Option option = null;
         while (option != Option.MAIN_MENU_EXIT) {
             try {
@@ -57,7 +65,7 @@ public class AppLogic {
                 }
             } catch (DateTimeParseException e) {
                 System.out.println("Given data couldn't be parsed as date. " +
-                        "Please insert full syntax data i.e.[1990/06/22");
+                        "Please insert full syntax data i.e.[1990/06/22]");
             } catch (NumberFormatException e) {
                 System.out.println("Given data isn't a number.");
             } catch (IllegalArgumentException | NoSuchElementException e) {
@@ -65,6 +73,15 @@ public class AppLogic {
             }
         }
         dataReader.closeScanner();
+    }
+
+    private void setNextPublicationId() {
+        Publication.nextPublicationId = library.getPublications()
+                .entrySet()
+                .stream()
+                .max((entry1, entry2) -> entry1.getKey() > entry2.getKey() ? 1 : -1)
+                .get()
+                .getKey();
     }
 
     private void printOptions(int from, int to) {

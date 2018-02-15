@@ -8,7 +8,6 @@ public class Magazine extends Publication {
 
     private String category;
 
-
     public Magazine(LocalDate dateOfPublication, String title, String publisher, String category) {
         super(dateOfPublication, title, publisher);
         this.category = category;

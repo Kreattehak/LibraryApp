@@ -4,14 +4,14 @@ import com.company.data.Book;
 import com.company.data.LibraryUser;
 import com.company.data.Magazine;
 
-import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class DataReader {
+
+    private static final int PESEL_LENGTH = 11;
 
     private Scanner sc;
 
@@ -89,7 +89,7 @@ public class DataReader {
         String lastName = sc.nextLine();
         System.out.println("User personal identity number: ");
         String personIdentityNumber = sc.nextLine();
-        if (personIdentityNumber.length() != 11)
+        if (personIdentityNumber.length() != PESEL_LENGTH)
             throw new InputMismatchException("Personal identity number is not valid.");
 
         LibraryUser libraryUser = new LibraryUser(firstName, lastName, personIdentityNumber);
@@ -102,8 +102,9 @@ public class DataReader {
     public int readInputAndGetId(String message) {
         System.out.println(message);
         int id = Integer.parseInt(sc.nextLine());
-        if (id < 1)
+        if (id < 1) {
             throw new InputMismatchException("The lowest id is 1.");
+        }
 
         return id;
     }

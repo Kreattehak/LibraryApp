@@ -1,14 +1,13 @@
 package com.company.data;
 
 import java.io.Serializable;
-import java.time.DateTimeException;
 import java.time.LocalDate;
 
 public abstract class Publication implements Serializable {
 
     private static final long serialVersionUID = -3614727489231840547L;
 
-    private static int nextPublicationId;
+    public static int nextPublicationId;
 
     private int publicationId;
     private LocalDate dateOfPublication;
